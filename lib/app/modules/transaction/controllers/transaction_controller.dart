@@ -8,9 +8,9 @@ class TransactionController extends GetxController
     with StateMixin<List<TransactionModel>> {
   List<TransactionModel>? listTransaction;
   late TransactionTableSource transactionTableSource;
-  double balanceOwners = 0;
-  double balanceOperating = 0;
-  double balanceTeacher = 0;
+  RxDouble balanceOwners = 0.0.obs;
+  RxDouble balanceOperating = 0.0.obs;
+  RxDouble balanceTeacher = 0.0.obs;
   @override
   void onInit() {
     initializeTransactionTab();
@@ -22,8 +22,6 @@ class TransactionController extends GetxController
       listTransaction = await TransactionService().getAllTransaction();
       transactionTableSource = TransactionTableSource(listTransaction!);
       buildTotalMoney(listTransaction!);
-      buildTotalMoney(listTransaction!);
-      buildTotalMoney(listTransaction!);
       change(listTransaction, status: RxStatus.success());
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
@@ -34,7 +32,6 @@ class TransactionController extends GetxController
     double Teacher = 0.0;
     double Operating = 0.0;
     double Owners = 0.0;
-
     for (var i = 0; i < total.length; ++i) {
       Teacher += total[i].amount!;
       Teacher -= ((double.parse('80')) / 100) * total[i].amount!;
@@ -43,9 +40,9 @@ class TransactionController extends GetxController
       Owners += total[i].amount!;
       Owners -= ((double.parse('60')) / 100) * total[i].amount!;
     }
-    balanceTeacher = Teacher;
-    balanceOperating = Operating;
-    balanceOwners = Owners;
+    balanceTeacher.value = Teacher;
+    balanceOperating.value = Operating;
+    balanceOwners.value = Owners;
   }
 
   @override
