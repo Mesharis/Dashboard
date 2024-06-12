@@ -11,35 +11,34 @@ class TransactionView extends GetView<TransactionController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Table(
+        Obx(() => Table(
           children: [
             TableRow(children: [
               const SizedBox(
                   height: 50, child: Text('Teacher Total')),
               SizedBox(
                   height: 50,
-                  child: Text(currencySign + controller.balanceTeacher.toString())),
+                  child: Text(currencySign + controller.balanceTeacher.value.toString())),
             ]),
             TableRow(children: [
               SizedBox(height: 50, child: Text('Operating total')),
               SizedBox(
                   height: 50,
-                  child: Text(currencySign + controller.balanceOperating.toString())),
+                  child: Text(currencySign + controller.balanceOperating.value.toString())),
             ]),
             TableRow(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50,
                   child: Text('Owners total'),
                 ),
                 SizedBox(
-                  height: 50,
-                child: Text(currencySign + controller.balanceOwners.toString())),
+                    height: 50,
+                    child: Text(currencySign + controller.balanceOwners.value.toString())),
               ],
             ),
           ],
-        ),
-
+        ),),
         Container(
           padding: const EdgeInsets.all(defaultPadding),
           decoration: const BoxDecoration(
